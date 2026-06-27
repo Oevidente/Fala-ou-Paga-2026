@@ -1,0 +1,6 @@
+{
+  "name": "Fala ou Paga",
+  "description": "Um party game para maiores de 18 anos, pensado especialmente para casais que querem esquentar a relação.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
