@@ -53,7 +53,7 @@ export function GameView() {
               animate={{ opacity: 1 }}
               className="relative w-full max-w-[280px] aspect-[2/3] mx-auto"
             >
-              <img src="/pngs/Capa-ou-Verso.png" alt="Capa do Jogo" className="w-full h-full object-cover rounded-2xl" />
+              <img src={`${import.meta.env.BASE_URL}pngs/Capa-ou-Verso.png`} alt="Capa do Jogo" className="w-full h-full object-cover rounded-2xl" />
             </motion.div>
           )}
         </AnimatePresence>

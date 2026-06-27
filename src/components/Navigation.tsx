@@ -50,7 +50,7 @@ export function Navigation({ currentTab, setCurrentTab, theme, toggleTheme }: Na
           className="w-12 h-12 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md text-white shadow-[0_4px_30px_rgba(0,0,0,0.1)] border border-white/20 hover:bg-white/20 transition-colors"
           aria-label="Toggle theme"
         >
-          <img src={theme === 'light' ? '/pngs/dark room.png' : '/pngs/light room.png'} alt="Theme" className="w-6 h-6 object-contain drop-shadow-sm" />
+          <img src={theme === 'light' ? `${import.meta.env.BASE_URL}pngs/dark room.png` : `${import.meta.env.BASE_URL}pngs/light room.png`} alt="Theme" className="w-6 h-6 object-contain drop-shadow-sm" />
         </button>
       </div>
     </nav>

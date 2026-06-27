@@ -6,12 +6,12 @@ export function Background({ theme }: { theme: Theme }) {
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none z-[-1] bg-[#1a1a1e]">
       <img 
-        src="/pngs/bg preto.png"
+        src={`${import.meta.env.BASE_URL}pngs/bg preto.png`}
         alt="" 
         className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${isDark ? 'opacity-100' : 'opacity-0'}`}
       />
       <img 
-        src="/pngs/bg azul.png"
+        src={`${import.meta.env.BASE_URL}pngs/bg azul.png`}
         alt="" 
         className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${!isDark ? 'opacity-100' : 'opacity-0'}`}
       />

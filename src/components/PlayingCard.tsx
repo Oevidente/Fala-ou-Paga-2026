@@ -23,19 +23,19 @@ export function PlayingCard({ card }: PlayingCardProps) {
     borderGlow = 'shadow-[0_0_30px_rgba(255,255,255,0.5)] border-white/80';
     labelText = 'LIVRE';
     labelColor = 'text-slate-400';
-    mainIcon = <img src="/pngs/interrogação.png" alt="?" className="w-24 h-24 object-contain opacity-50 mix-blend-multiply" />;
+    mainIcon = <img src={`${import.meta.env.BASE_URL}pngs/interrogação.png`} alt="?" className="w-24 h-24 object-contain opacity-50 mix-blend-multiply" />;
   } else if (isPaga) {
     cardBg = 'bg-gradient-to-b from-yellow-50 to-orange-100';
     borderGlow = 'shadow-[0_0_30px_rgba(255,200,0,0.4)] border-yellow-300/80';
     labelText = 'PAGA';
     labelColor = 'text-yellow-500';
-    mainIcon = <img src="/pngs/18 simbolo.png" alt="18" className="w-32 h-32 object-contain drop-shadow-md" />;
+    mainIcon = <img src={`${import.meta.env.BASE_URL}pngs/18 simbolo.png`} alt="18" className="w-32 h-32 object-contain drop-shadow-md" />;
   } else {
     cardBg = 'bg-gradient-to-b from-pink-100 to-pink-200';
     borderGlow = 'shadow-[0_0_30px_rgba(255,100,150,0.5)] border-pink-300/80';
     labelText = 'FALA ou PAGA';
     labelColor = 'text-pink-400';
-    mainIcon = <img src="/pngs/interrogação.png" alt="?" className="w-32 h-32 object-contain opacity-80 drop-shadow-md" />;
+    mainIcon = <img src={`${import.meta.env.BASE_URL}pngs/interrogação.png`} alt="?" className="w-32 h-32 object-contain opacity-80 drop-shadow-md" />;
   }
 
   return (
@@ -51,7 +51,7 @@ export function PlayingCard({ card }: PlayingCardProps) {
         
         {card.image ? (
           <img 
-            src={`/cards/${card.image}`} 
+            src={`${import.meta.env.BASE_URL}cards/${card.image}`} 
             alt={card.text || 'Card'}
             className="absolute inset-0 w-full h-full object-cover z-0"
           />
