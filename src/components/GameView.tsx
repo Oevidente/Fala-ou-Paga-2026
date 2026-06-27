@@ -4,7 +4,8 @@ import { Card } from '../types';
 import { mainDeck, challengeDeck } from '../data';
 import { PlayingCard } from './PlayingCard';
 
-type GameState = 'cover' | 'gallery' | 'shuffling' | 'playing';
+type GameState = 'mode_selection' | 'cover' | 'gallery' | 'shuffling' | 'playing';
+type GameMode = 'local' | 'individual';
 
 const shufflingCards = [
   { id: 0, xStart: -120, yStart: -150, rotateStart: -15, frontImage: mainDeck[0].image },
@@ -18,7 +19,11 @@ const shufflingCards = [
 ];
 
 export function GameView() {
-  const [gameState, setGameState] = useState<GameState>('cover');
+  const [gameState, setGameState] = useState<GameState>('mode_selection');
+  const [gameMode, setGameMode] = useState<GameMode>('individual');
+  const [players, setPlayers] = useState<string[]>([]);
+  const [newPlayerName, setNewPlayerName] = useState<string>('');
+  const [currentPlayerIndex, setCurrentPlayerIndex] = useState<number>(0);
   const [currentCard, setCurrentCard] = useState<Card | null>(null);
   
   const [availableMainCards, setAvailableMainCards] = useState<Card[]>([...mainDeck]);
@@ -35,6 +40,24 @@ export function GameView() {
     }
   }, [gameState]);
 
+  const handleAddPlayer = () => {
+    const trimmed = newPlayerName.trim();
+    if (trimmed && !players.includes(trimmed)) {
+      setPlayers(prev => [...prev, trimmed]);
+      setNewPlayerName('');
+    }
+  };
+
+  const handleRemovePlayer = (index: number) => {
+    setPlayers(prev => prev.filter((_, idx) => idx !== index));
+    setCurrentPlayerIndex(prev => {
+      if (prev >= players.length - 1) {
+        return 0;
+      }
+      return prev;
+    });
+  };
+
   const drawMainCard = () => {
     let pool = availableMainCards;
     if (pool.length === 0) {
@@ -46,6 +69,12 @@ export function GameView() {
     
     const newPool = pool.filter((_, index) => index !== randomIndex);
     setAvailableMainCards(newPool);
+    
+    // Rotate turn only if a card was already drawn previously
+    if (gameMode === 'local' && players.length > 0 && currentCard !== null) {
+      setCurrentPlayerIndex(prev => (prev + 1) % players.length);
+    }
+
     setCurrentCard(drawnCard);
   };
 
@@ -68,10 +97,162 @@ export function GameView() {
   return (
     <div className="pt-28 pb-12 px-6 flex flex-col items-center justify-center min-h-[85vh]">
       
+      {gameState === 'playing' && gameMode === 'local' && players.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: -15 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-6 px-6 py-2.5 bg-gradient-to-r from-pink-500/25 to-rose-500/25 border border-pink-500/40 text-pink-200 font-semibold rounded-full shadow-[0_0_20px_rgba(244,63,94,0.2)] flex items-center gap-2.5 text-sm tracking-wide"
+        >
+          <span className="w-2.5 h-2.5 rounded-full bg-pink-500 animate-pulse" />
+          Vez de: <span className="text-white text-base font-extrabold italic tracking-tight">{players[currentPlayerIndex]}</span>
+        </motion.div>
+      )}
+
       <div className="flex-1 flex items-center justify-center w-full mb-8 relative">
         <AnimatePresence mode="wait">
           {currentCard ? (
             <PlayingCard key={currentCard.id} card={currentCard} />
+          ) : gameState === 'mode_selection' ? (
+            <motion.div
+              key="mode-selection"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="w-full max-w-[340px] flex flex-col gap-6"
+            >
+              <div className="text-center">
+                <h1 className="text-4xl font-bold text-white italic tracking-tight text-glow">
+                  Modo de Jogo
+                </h1>
+                <p className="text-white/50 text-sm mt-1">Como vocês vão jogar hoje?</p>
+              </div>
+
+              <div className="flex flex-col gap-4">
+                {/* Individual Card */}
+                <button
+                  type="button"
+                  onClick={() => setGameMode('individual')}
+                  className={`p-4 rounded-2xl border text-left transition-all relative overflow-hidden flex flex-col gap-1 active:scale-98 cursor-pointer ${
+                    gameMode === 'individual'
+                      ? 'bg-gradient-to-r from-pink-500/20 to-rose-500/20 border-pink-500/80 shadow-[0_0_20px_rgba(244,63,94,0.25)]'
+                      : 'bg-white/5 hover:bg-white/10 border-white/10'
+                  }`}
+                >
+                  <div className="flex items-center justify-between w-full">
+                    <span className="font-bold text-white text-base">Modo Individual</span>
+                    {gameMode === 'individual' && (
+                      <span className="w-3.5 h-3.5 rounded-full bg-pink-500 flex items-center justify-center">
+                        <span className="w-1.5 h-1.5 rounded-full bg-white" />
+                      </span>
+                    )}
+                  </div>
+                  <span className="text-xs text-white/60">
+                    Cada pessoa joga no seu próprio celular. Ideal para distanciamento ou aparelhos próprios.
+                  </span>
+                </button>
+
+                {/* Local Play Card */}
+                <button
+                  type="button"
+                  onClick={() => setGameMode('local')}
+                  className={`p-4 rounded-2xl border text-left transition-all relative overflow-hidden flex flex-col gap-1 active:scale-98 cursor-pointer ${
+                    gameMode === 'local'
+                      ? 'bg-gradient-to-r from-pink-500/20 to-rose-500/20 border-pink-500/80 shadow-[0_0_20px_rgba(244,63,94,0.25)]'
+                      : 'bg-white/5 hover:bg-white/10 border-white/10'
+                  }`}
+                >
+                  <div className="flex items-center justify-between w-full">
+                    <span className="font-bold text-white text-base">Passa e Joga (Local)</span>
+                    {gameMode === 'local' && (
+                      <span className="w-3.5 h-3.5 rounded-full bg-pink-500 flex items-center justify-center">
+                        <span className="w-1.5 h-1.5 rounded-full bg-white" />
+                      </span>
+                    )}
+                  </div>
+                  <span className="text-xs text-white/60">
+                    Vários jogadores dividindo o mesmo celular. As cartas mudam conforme a vez de cada um.
+                  </span>
+                </button>
+              </div>
+
+              {/* Player Names Input Section (Only for local mode) */}
+              <AnimatePresence>
+                {gameMode === 'local' && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="overflow-hidden flex flex-col gap-3"
+                  >
+                    <div className="h-px bg-white/10 my-1" />
+                    <span className="text-sm font-bold text-white/70">Nomes dos Jogadores</span>
+                    
+                    {/* Add Player Input */}
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={newPlayerName}
+                        onChange={(e) => setNewPlayerName(e.target.value)}
+                        placeholder="Nome do jogador"
+                        maxLength={20}
+                        className="flex-1 px-4 py-2 rounded-full bg-white/5 border border-white/15 text-white text-sm focus:outline-none focus:border-pink-500 transition-colors"
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault();
+                            handleAddPlayer();
+                          }
+                        }}
+                      />
+                      <button
+                        type="button"
+                        onClick={handleAddPlayer}
+                        className="px-4 py-2 rounded-full bg-pink-500 hover:bg-pink-600 text-white font-bold text-sm active:scale-95 transition-all shadow-md shadow-pink-500/20 cursor-pointer"
+                      >
+                        +
+                      </button>
+                    </div>
+
+                    {/* Players list */}
+                    <div className="flex flex-col gap-2 max-h-[160px] overflow-y-auto pr-1">
+                      {players.length === 0 ? (
+                        <div className="text-center py-4 text-white/30 text-xs italic">
+                          Adicione pelo menos 2 jogadores.
+                        </div>
+                      ) : (
+                        players.map((name, idx) => (
+                          <div
+                            key={idx}
+                            className="flex items-center justify-between px-4 py-2 rounded-xl bg-white/5 border border-white/5 group animate-fadeIn"
+                          >
+                            <span className="text-sm text-white/90 font-medium">{name}</span>
+                            <button
+                              type="button"
+                              onClick={() => handleRemovePlayer(idx)}
+                              className="text-white/40 hover:text-rose-400 text-xs px-2 py-1 transition-colors cursor-pointer"
+                            >
+                              Remover
+                            </button>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              <button
+                type="button"
+                onClick={() => setGameState('cover')}
+                disabled={gameMode === 'local' && players.length < 2}
+                className={`w-full py-3.5 rounded-full text-base font-bold transition-all shadow-[0_0_20px_rgba(244,63,94,0.4)] active:scale-95 ${
+                  gameMode === 'local' && players.length < 2
+                    ? 'bg-slate-700/50 border border-slate-600/30 text-slate-400 cursor-not-allowed shadow-none'
+                    : 'bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 border border-pink-400/50 text-white cursor-pointer'
+                }`}
+              >
+                Confirmar
+              </button>
+            </motion.div>
           ) : gameState === 'cover' ? (
             <motion.div
               key="cover"
@@ -203,60 +384,62 @@ export function GameView() {
         </AnimatePresence>
       </div>
 
-      <div className="w-full flex flex-col gap-4 max-w-[280px]">
-        {gameState === 'cover' && (
-          <button
-            onClick={() => setGameState('gallery')}
-            className="w-full py-3.5 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 border border-pink-400/50 text-white font-semibold rounded-full shadow-[0_0_20px_rgba(244,63,94,0.4)] transition-all active:scale-95 text-base font-bold"
-          >
-            Iniciar
-          </button>
-        )}
-
-        {gameState === 'gallery' && (
-          <button
-            onClick={() => setGameState('shuffling')}
-            className="w-full py-3.5 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 border border-purple-400/50 text-white font-semibold rounded-full shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all active:scale-95 text-base font-bold"
-          >
-            Embaralhar
-          </button>
-        )}
-
-        {gameState === 'shuffling' && (
-          <button
-            disabled
-            className="w-full py-3.5 bg-slate-600/30 border border-slate-500/20 text-slate-400 font-semibold rounded-full cursor-not-allowed text-base flex items-center justify-center gap-2 animate-pulse"
-          >
-            <svg className="animate-spin h-5 w-5 text-slate-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            Embaralhando...
-          </button>
-        )}
-
-        {gameState === 'playing' && (
-          <>
+      {gameState !== 'mode_selection' && (
+        <div className="w-full flex flex-col gap-4 max-w-[280px]">
+          {gameState === 'cover' && (
             <button
-              onClick={drawMainCard}
-              className="w-full py-3.5 bg-white/20 hover:bg-white/30 backdrop-blur-xl border border-white/30 text-white font-medium rounded-full shadow-[0_0_20px_rgba(255,255,255,0.2)] transition-all active:scale-95 text-base"
+              onClick={() => setGameState('gallery')}
+              className="w-full py-3.5 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 border border-pink-400/50 text-white font-semibold rounded-full shadow-[0_0_20px_rgba(244,63,94,0.4)] transition-all active:scale-95 text-base font-bold cursor-pointer"
             >
-              Sortear Carta
+              Iniciar
             </button>
-            
-            {currentCard && !isPaga && (
-              <motion.button
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                onClick={drawChallengeCard}
-                className="w-full py-3.5 bg-yellow-500/20 hover:bg-yellow-500/30 backdrop-blur-xl border border-yellow-400/50 text-yellow-100 font-medium rounded-full shadow-[0_0_20px_rgba(234,179,8,0.2)] transition-all active:scale-95 text-base"
+          )}
+
+          {gameState === 'gallery' && (
+            <button
+              onClick={() => setGameState('shuffling')}
+              className="w-full py-3.5 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 border border-purple-400/50 text-white font-semibold rounded-full shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all active:scale-95 text-base font-bold cursor-pointer"
+            >
+              Embaralhar
+            </button>
+          )}
+
+          {gameState === 'shuffling' && (
+            <button
+              disabled
+              className="w-full py-3.5 bg-slate-600/30 border border-slate-500/20 text-slate-400 font-semibold rounded-full cursor-not-allowed text-base flex items-center justify-center gap-2 animate-pulse"
+            >
+              <svg className="animate-spin h-5 w-5 text-slate-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Embaralhando...
+            </button>
+          )}
+
+          {gameState === 'playing' && (
+            <>
+              <button
+                onClick={drawMainCard}
+                className="w-full py-3.5 bg-white/20 hover:bg-white/30 backdrop-blur-xl border border-white/30 text-white font-medium rounded-full shadow-[0_0_20px_rgba(255,255,255,0.2)] transition-all active:scale-95 text-base cursor-pointer"
               >
-                Sortear Desafio
-              </motion.button>
-            )}
-          </>
-        )}
-      </div>
+                Sortear Carta
+              </button>
+              
+              {currentCard && !isPaga && (
+                <motion.button
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  onClick={drawChallengeCard}
+                  className="w-full py-3.5 bg-yellow-500/20 hover:bg-yellow-500/30 backdrop-blur-xl border border-yellow-400/50 text-yellow-100 font-medium rounded-full shadow-[0_0_20px_rgba(234,179,8,0.2)] transition-all active:scale-95 text-base cursor-pointer"
+                >
+                  Sortear Desafio
+                </motion.button>
+              )}
+            </>
+          )}
+        </div>
+      )}
 
     </div>
   );
