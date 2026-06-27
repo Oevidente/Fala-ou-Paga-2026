@@ -35,15 +35,15 @@ export default function App() {
   return (
     <div className={`min-h-screen font-sans ${theme === 'dark' ? 'dark text-white' : 'text-gray-900'} transition-colors duration-700 selection:bg-pink-500/30`}>
       <Background theme={theme} />
-      
-      <main className="max-w-md md:max-w-[1000px] mx-auto min-h-screen md:min-h-0 md:mt-10 md:mb-10 md:rounded-[2.5rem] md:bg-white/10 md:backdrop-blur-xl md:border md:border-white/20 md:shadow-2xl relative overflow-x-hidden">
-        <Navigation 
-          currentTab={currentTab} 
-          setCurrentTab={setCurrentTab} 
-          theme={theme} 
-          toggleTheme={toggleTheme} 
+
+      <main className="max-w-md md:max-w-[1000px] mx-auto min-h-screen bg-black/20 backdrop-blur-lg md:min-h-0 md:mt-10 md:mb-10 md:rounded-[2.5rem] md:bg-white/10 md:backdrop-blur-xl md:border md:border-white/20 md:shadow-2xl relative overflow-x-hidden">
+        <Navigation
+          currentTab={currentTab}
+          setCurrentTab={setCurrentTab}
+          theme={theme}
+          toggleTheme={toggleTheme}
         />
-        
+
         <AnimatePresence mode="wait">
           {currentTab === 'inicio' && (
             <HomeView key="inicio" theme={theme} onPlay={handlePlay} setCurrentTab={setCurrentTab} />
