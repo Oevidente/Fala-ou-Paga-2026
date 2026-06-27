@@ -2,18 +2,18 @@ import { Theme } from '../types';
 
 export function Background({ theme }: { theme: Theme }) {
   const isDark = theme === 'dark';
-  
+
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none z-[-1] bg-[#1a1a1e]">
-      <img 
+      <img
         src={`${import.meta.env.BASE_URL}pngs/bg preto.png`}
-        alt="" 
-        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${isDark ? 'opacity-100' : 'opacity-0'}`}
+        alt=""
+        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 md:min-w-[100vh] md:min-h-[100vw] md:-rotate-90 ${isDark ? 'opacity-100' : 'opacity-0'}`}
       />
-      <img 
+      <img
         src={`${import.meta.env.BASE_URL}pngs/bg azul.png`}
-        alt="" 
-        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${!isDark ? 'opacity-100' : 'opacity-0'}`}
+        alt=""
+        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 md:min-w-[100vh] md:min-h-[100vw] md:-rotate-90 ${!isDark ? 'opacity-100' : 'opacity-0'}`}
       />
     </div>
   );
