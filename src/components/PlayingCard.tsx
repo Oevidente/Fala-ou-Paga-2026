@@ -42,18 +42,24 @@ export function PlayingCard({ card }: PlayingCardProps) {
   return (
     <motion.div
       key={card.id}
-      initial={{ opacity: 0, y: 0, rotateY: 180, scale: 0.95 }}
-      animate={{ opacity: 1, y: [0, -120, 0], rotateY: [180, 90, 0], scale: [0.95, 1.05, 1] }}
-      exit={{ opacity: 0, y: -40, scale: 0.95, transition: { duration: 0.25 } }}
-      transition={{ duration: 0.8, ease: 'easeOut' }}
-      className="relative w-full max-w-[280px] aspect-[2/3] mx-auto perspective-1000"
+      initial={{ opacity: 1, y: 15, rotateY: 90, scale: 0.92 }}
+      animate={{
+        opacity: [1, 1, 1, 1],
+        y:       [15,  -85, -85,  0],
+        rotateY: [90,   90,  20,  0],
+        scale:   [0.92, 1.02, 1.02, 1],
+      }}
+      exit={{ opacity: 0, y: -30, scale: 0.9, transition: { duration: 0.2, ease: 'easeIn' } }}
+      transition={{
+        duration: 0.95,
+        times: [0, 0.30, 0.60, 1.0],
+        ease: 'easeOut',
+      }}
+      className="relative w-full max-w-[280px] aspect-[2/3] mx-auto"
       style={{ transformStyle: 'preserve-3d' }}
     >
-      {/* Front Face */}
-      <div 
-        className={`absolute inset-0 w-full h-full rounded-2xl border-4 flex flex-col p-0 overflow-hidden ${cardBg} ${borderGlow}`}
-        style={{ backfaceVisibility: 'hidden', zIndex: 2 }}
-      >
+      <div className={`w-full h-full rounded-2xl border-4 flex flex-col p-0 relative overflow-hidden ${cardBg} ${borderGlow}`}>
+        
         {card.image ? (
           <img 
             src={`${import.meta.env.BASE_URL}cards/${card.image}`} 
@@ -77,22 +83,6 @@ export function PlayingCard({ card }: PlayingCardProps) {
             </div>
           </div>
         )}
-      </div>
-
-      {/* Back Face */}
-      <div 
-        className="absolute inset-0 w-full h-full rounded-2xl border-4 border-white/80 overflow-hidden shadow-xl"
-        style={{ 
-          backfaceVisibility: 'hidden',
-          transform: 'rotateY(180deg)',
-          zIndex: 1
-        }}
-      >
-        <img
-          src={`${import.meta.env.BASE_URL}pngs/Capa-ou-Verso.png`}
-          alt="Verso"
-          className="w-full h-full object-cover"
-        />
       </div>
     </motion.div>
   );
