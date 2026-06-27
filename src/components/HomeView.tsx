@@ -29,11 +29,11 @@ export function HomeView({ theme, onPlay, setCurrentTab }: HomeViewProps) {
         </div>
         
         {/* Decorative cards stack */}
-        <div className="absolute right-[-2rem] md:right-0 top-[-1rem] md:top-[-5rem] w-[55%] md:w-[50%] z-0 drop-shadow-2xl pointer-events-none">
+        <div className="absolute right-[-2rem] md:right-0 top-[-1rem] md:top-0 w-[55%] md:w-auto md:h-full z-0 drop-shadow-2xl pointer-events-none">
           <img 
             src={`${import.meta.env.BASE_URL}pngs/Capa do online.png`} 
             alt="Cartas" 
-            className="w-full h-auto object-contain scale-110 md:scale-125 origin-right"
+            className="w-full h-auto md:h-full md:w-auto object-contain scale-110 md:scale-100 origin-right"
           />
         </div>
       </div>
