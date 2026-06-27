@@ -110,9 +110,7 @@ export function GameView() {
 
       <div className="flex-1 flex items-center justify-center w-full mb-8 relative">
         <AnimatePresence mode="wait">
-          {currentCard ? (
-            <PlayingCard key={currentCard.id} card={currentCard} />
-          ) : gameState === 'mode_selection' ? (
+          {gameState === 'mode_selection' ? (
             <motion.div
               key="mode-selection"
               initial={{ opacity: 0, y: 20 }}
@@ -351,12 +349,13 @@ export function GameView() {
             </motion.div>
           ) : (
             <motion.div
-              key="deck-static"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="relative w-full max-w-[280px] aspect-[2/3] mx-auto"
+              key="playing-stage"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="relative w-full max-w-[280px] aspect-[2/3] mx-auto perspective-1000"
             >
+              {/* Static Deck Stack */}
               {deckStack.map((index) => {
                 const rotate = index === 0 ? -3 : index === 1 ? 2 : index === 2 ? -1 : index === 3 ? 3 : -1;
                 const xOffset = index === 0 ? -4 : index === 1 ? 3 : index === 2 ? -2 : index === 3 ? 2 : 0;
@@ -379,6 +378,15 @@ export function GameView() {
                   </div>
                 );
               })}
+
+              {/* Active Card overlay */}
+              <AnimatePresence mode="wait">
+                {currentCard && (
+                  <div className="absolute inset-0 z-50">
+                    <PlayingCard key={currentCard.id} card={currentCard} />
+                  </div>
+                )}
+              </AnimatePresence>
             </motion.div>
           )}
         </AnimatePresence>

@@ -42,14 +42,18 @@ export function PlayingCard({ card }: PlayingCardProps) {
   return (
     <motion.div
       key={card.id}
-      initial={{ opacity: 0, scale: 0.8, y: 50, rotateY: 90 }}
-      animate={{ opacity: 1, scale: 1, y: 0, rotateY: 0 }}
-      exit={{ opacity: 0, scale: 0.8, y: -50 }}
-      transition={{ type: 'spring', bounce: 0.3, duration: 0.6 }}
+      initial={{ opacity: 0, y: 0, rotateY: 180, scale: 0.95 }}
+      animate={{ opacity: 1, y: [0, -120, 0], rotateY: [180, 90, 0], scale: [0.95, 1.05, 1] }}
+      exit={{ opacity: 0, y: -40, scale: 0.95, transition: { duration: 0.25 } }}
+      transition={{ duration: 0.8, ease: 'easeOut' }}
       className="relative w-full max-w-[280px] aspect-[2/3] mx-auto perspective-1000"
+      style={{ transformStyle: 'preserve-3d' }}
     >
-      <div className={`w-full h-full rounded-2xl border-4 flex flex-col p-0 relative overflow-hidden ${cardBg} ${borderGlow}`}>
-        
+      {/* Front Face */}
+      <div 
+        className={`absolute inset-0 w-full h-full rounded-2xl border-4 flex flex-col p-0 overflow-hidden ${cardBg} ${borderGlow}`}
+        style={{ backfaceVisibility: 'hidden', zIndex: 2 }}
+      >
         {card.image ? (
           <img 
             src={`${import.meta.env.BASE_URL}cards/${card.image}`} 
@@ -73,6 +77,22 @@ export function PlayingCard({ card }: PlayingCardProps) {
             </div>
           </div>
         )}
+      </div>
+
+      {/* Back Face */}
+      <div 
+        className="absolute inset-0 w-full h-full rounded-2xl border-4 border-white/80 overflow-hidden shadow-xl"
+        style={{ 
+          backfaceVisibility: 'hidden',
+          transform: 'rotateY(180deg)',
+          zIndex: 1
+        }}
+      >
+        <img
+          src={`${import.meta.env.BASE_URL}pngs/Capa-ou-Verso.png`}
+          alt="Verso"
+          className="w-full h-full object-cover"
+        />
       </div>
     </motion.div>
   );
