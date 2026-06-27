@@ -108,15 +108,51 @@ export function HomeView({ theme, onPlay, setCurrentTab }: HomeViewProps) {
       {/* Regras preview */}
       <div>
         <h2 className="text-xl md:text-4xl font-bold text-white mb-4 md:mb-8 italic tracking-tight text-glow">Regras</h2>
-        <div className="p-5 md:p-10 rounded-[1.5rem] md:rounded-[2rem] backdrop-blur-xl border border-white/20 shadow-xl bg-white/10">
-          <h3 className="font-bold text-white mb-1 md:mb-3 text-[15px] md:text-2xl">1. Componentes:</h3>
-          <p className="text-white/90 text-[15px] md:text-xl mb-4 md:mb-8 leading-relaxed md:leading-relaxed">
-            Baralho de cartas rosa claro (contém as perguntas principais) 1 carta prateada por rodada (pergunta livre) Baralho de cartas douradas (desafios/punições)
-          </p>
-          <h3 className="font-bold text-white mb-1 md:mb-3 text-[15px] md:text-2xl">2. Preparação:</h3>
-          <p className="text-white/90 text-[15px] md:text-xl mb-4 md:mb-8 leading-relaxed md:leading-relaxed">
-            Embaralhe bem o baralho rosa claro...
-          </p>
+        <div className="p-5 md:p-8 rounded-[1.5rem] md:rounded-[2rem] backdrop-blur-xl border border-white/20 shadow-xl bg-white/10">
+          <div className="max-h-[300px] md:max-h-[400px] overflow-y-auto pr-4 space-y-6 text-white/90 text-[15px] md:text-lg leading-relaxed md:leading-relaxed">
+            <section>
+              <h3 className="text-lg font-bold text-white mb-2 text-glow">1. Objetivo:</h3>
+              <p>
+                Criar um ambiente divertido e desinibido, em que os participantes se desafiem a responder perguntas ou cumpram punições criativas.
+              </p>
+            </section>
+
+            <section>
+              <h3 className="text-lg font-bold text-white mb-2 text-glow">2. Componentes:</h3>
+              <ul className="space-y-1 list-disc list-inside">
+                <li>Baralho de cartas vermelhas (contém as perguntas principais)</li>
+                <li>1 carta prateada por rodada (pergunta livre)</li>
+                <li>Baralho de cartas douradas (desafios/punições)</li>
+              </ul>
+            </section>
+
+            <section>
+              <h3 className="text-lg font-bold text-white mb-2 text-glow">3. Preparação:</h3>
+              <ul className="space-y-1 list-disc list-inside">
+                <li>Embaralhe bem o baralho vermelho.</li>
+                <li>Insira aleatoriamente, entre as vermelhas, uma carta prateada.</li>
+                <li>Deixe o baralho dourado separado, virado para baixo.</li>
+              </ul>
+            </section>
+
+            <section>
+              <h3 className="text-lg font-bold text-white mb-2 text-glow">4. Como Jogar:</h3>
+              <ul className="space-y-1 list-disc list-inside">
+                <li>O jogador da vez puxa a primeira carta vermelha.</li>
+                <li>Se for vermelha, lê em voz alta a pergunta e faz ao outro participante.</li>
+                <li>Se for prateada, o jogador escolhe qualquer pergunta que quiser (pergunta livre).</li>
+                <li>O outro participante responde ou recusa.</li>
+              </ul>
+            </section>
+
+            <section>
+              <h3 className="text-lg font-bold text-white mb-2 text-glow">5. Recusa de Resposta:</h3>
+              <ul className="space-y-1 list-disc list-inside">
+                <li>Se o questionado se recusar a responder, o questionador deve puxar uma carta dourada e cumprir o desafio indicado.</li>
+                <li>Se quem puxou a carta (a vez) se sentir tímido ou não quiser fazer a pergunta, o outro jogador puxa uma carta dourada e realiza o desafio.</li>
+              </ul>
+            </section>
+          </div>
 
           <div className="flex justify-center mt-6 md:mt-10">
             <button
