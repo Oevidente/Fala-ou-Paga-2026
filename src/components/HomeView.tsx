@@ -43,27 +43,55 @@ export function HomeView({ theme, onPlay, setCurrentTab }: HomeViewProps) {
       <div className="mb-8 md:mb-16 relative z-10">
         <h2 className="text-xl md:text-4xl font-bold text-white mb-4 md:mb-8 italic tracking-tight text-glow">Tipos de Cartas</h2>
         <div className="grid grid-cols-3 gap-3 sm:gap-4 md:gap-8">
-          <div className="group aspect-square md:aspect-[4/3] rounded-2xl sm:rounded-3xl md:rounded-[2rem] bg-gradient-to-br from-white/80 to-white/40 hover:from-[#4a72ba] hover:to-[#223963] backdrop-blur border border-white/50 flex items-center justify-center shadow-lg p-2 md:p-6 overflow-hidden relative transition-all duration-300 cursor-pointer">
-            <img src={`${import.meta.env.BASE_URL}pngs/interrogação.png`} alt="Livre" className="w-full h-full object-contain opacity-40 mix-blend-multiply transition-all duration-300 group-hover:opacity-10 group-hover:mix-blend-normal group-hover:scale-110" />
-            <div className="absolute inset-0 flex flex-col items-center justify-center p-2 md:p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 text-center">
-              <h3 className="text-white font-bold text-[13px] sm:text-[15px] md:text-2xl mb-1 md:mb-3 leading-tight drop-shadow-md">Carta Prata</h3>
-              <p className="text-white text-[10px] sm:text-[11px] md:text-base leading-[1.1] sm:leading-tight drop-shadow">Essa carta permite que se faça a pergunta que desejar.</p>
+
+          {/* Carta Prata */}
+          <div className="flex flex-col gap-2 md:gap-0">
+            <div className="group aspect-square md:aspect-[4/3] rounded-2xl sm:rounded-3xl md:rounded-[2rem] bg-gradient-to-br from-white/80 to-white/40 hover:from-[#4a72ba] hover:to-[#223963] backdrop-blur border border-white/50 flex items-center justify-center shadow-lg p-2 md:p-6 overflow-hidden relative transition-all duration-300 cursor-pointer">
+              <img src={`${import.meta.env.BASE_URL}pngs/interrogação.png`} alt="Livre" className="w-full h-full object-contain opacity-40 mix-blend-multiply transition-all duration-300 group-hover:opacity-10 group-hover:mix-blend-normal group-hover:scale-110" />
+              <div className="absolute inset-0 md:flex flex-col items-center justify-center p-2 md:p-6 hidden group-hover:flex opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 text-center">
+                <h3 className="text-white font-bold text-[13px] sm:text-[15px] md:text-2xl mb-1 md:mb-3 leading-tight drop-shadow-md">Carta Prata</h3>
+                <p className="text-white text-[10px] sm:text-[11px] md:text-base leading-[1.1] sm:leading-tight drop-shadow">Essa carta permite que se faça a pergunta que desejar.</p>
+              </div>
+            </div>
+            {/* Mobile-only description */}
+            <div className="md:hidden text-center">
+              <h3 className="text-white font-bold text-[12px] sm:text-[13px] leading-tight mb-0.5">Carta Prata</h3>
+              <p className="text-white/70 text-[10px] sm:text-[11px] leading-snug">Essa carta permite que se faça a pergunta que desejar.</p>
             </div>
           </div>
-          <div className="group aspect-square md:aspect-[4/3] rounded-2xl sm:rounded-3xl md:rounded-[2rem] bg-gradient-to-br from-pink-400 to-pink-500 hover:from-[#2a2640] hover:to-[#151221] backdrop-blur border border-pink-300/50 flex items-center justify-center shadow-lg p-2 md:p-6 overflow-hidden relative transition-all duration-300 cursor-pointer">
-            <img src={`${import.meta.env.BASE_URL}pngs/interrogação.png`} alt="Fala ou Paga" className="w-full h-full object-contain opacity-90 drop-shadow-md transition-all duration-300 group-hover:opacity-10 group-hover:scale-110" />
-            <div className="absolute inset-0 flex flex-col items-center justify-center p-2 md:p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 text-center">
-              <h3 className="text-white font-bold text-[13px] sm:text-[15px] md:text-2xl mb-1 md:mb-3 leading-tight drop-shadow-md">Carta Rosa</h3>
-              <p className="text-white text-[10px] sm:text-[11px] md:text-base leading-[1.1] sm:leading-tight drop-shadow">Essa carta contém uma pergunta escrita de qualquer tipo.</p>
+
+          {/* Carta Rosa */}
+          <div className="flex flex-col gap-2 md:gap-0">
+            <div className="group aspect-square md:aspect-[4/3] rounded-2xl sm:rounded-3xl md:rounded-[2rem] bg-gradient-to-br from-pink-400 to-pink-500 hover:from-[#2a2640] hover:to-[#151221] backdrop-blur border border-pink-300/50 flex items-center justify-center shadow-lg p-2 md:p-6 overflow-hidden relative transition-all duration-300 cursor-pointer">
+              <img src={`${import.meta.env.BASE_URL}pngs/interrogação.png`} alt="Fala ou Paga" className="w-full h-full object-contain opacity-90 drop-shadow-md transition-all duration-300 group-hover:opacity-10 group-hover:scale-110" />
+              <div className="absolute inset-0 md:flex flex-col items-center justify-center p-2 md:p-6 hidden group-hover:flex opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 text-center">
+                <h3 className="text-white font-bold text-[13px] sm:text-[15px] md:text-2xl mb-1 md:mb-3 leading-tight drop-shadow-md">Carta Rosa</h3>
+                <p className="text-white text-[10px] sm:text-[11px] md:text-base leading-[1.1] sm:leading-tight drop-shadow">Essa carta contém uma pergunta escrita de qualquer tipo.</p>
+              </div>
+            </div>
+            {/* Mobile-only description */}
+            <div className="md:hidden text-center">
+              <h3 className="text-white font-bold text-[12px] sm:text-[13px] leading-tight mb-0.5">Carta Rosa</h3>
+              <p className="text-white/70 text-[10px] sm:text-[11px] leading-snug">Essa carta contém uma pergunta escrita de qualquer tipo.</p>
             </div>
           </div>
-          <div className="group aspect-square md:aspect-[4/3] rounded-2xl sm:rounded-3xl md:rounded-[2rem] bg-gradient-to-br from-orange-400 to-yellow-500 hover:from-[#1b301f] hover:to-[#0f1d12] backdrop-blur border border-yellow-300/50 flex items-center justify-center shadow-lg p-2 md:p-6 overflow-hidden relative transition-all duration-300 cursor-pointer">
-            <img src={`${import.meta.env.BASE_URL}pngs/18 simbolo.png`} alt="Desafio" className="w-full h-full object-contain drop-shadow-md opacity-90 transition-all duration-300 group-hover:opacity-10 group-hover:scale-110" />
-            <div className="absolute inset-0 flex flex-col items-center justify-center p-2 md:p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 text-center">
-              <h3 className="text-white font-bold text-[13px] sm:text-[15px] md:text-2xl mb-1 md:mb-3 leading-tight drop-shadow-md">Carta Desafio</h3>
-              <p className="text-white text-[10px] sm:text-[11px] md:text-base leading-[1.1] sm:leading-tight drop-shadow">Essa carta traz uma punição/desafio para quem se recusar a perguntar ou responder uma pergunta.</p>
+
+          {/* Carta Desafio */}
+          <div className="flex flex-col gap-2 md:gap-0">
+            <div className="group aspect-square md:aspect-[4/3] rounded-2xl sm:rounded-3xl md:rounded-[2rem] bg-gradient-to-br from-orange-400 to-yellow-500 hover:from-[#1b301f] hover:to-[#0f1d12] backdrop-blur border border-yellow-300/50 flex items-center justify-center shadow-lg p-2 md:p-6 overflow-hidden relative transition-all duration-300 cursor-pointer">
+              <img src={`${import.meta.env.BASE_URL}pngs/18 simbolo.png`} alt="Desafio" className="w-full h-full object-contain drop-shadow-md opacity-90 transition-all duration-300 group-hover:opacity-10 group-hover:scale-110" />
+              <div className="absolute inset-0 md:flex flex-col items-center justify-center p-2 md:p-6 hidden group-hover:flex opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 text-center">
+                <h3 className="text-white font-bold text-[13px] sm:text-[15px] md:text-2xl mb-1 md:mb-3 leading-tight drop-shadow-md">Carta Desafio</h3>
+                <p className="text-white text-[10px] sm:text-[11px] md:text-base leading-[1.1] sm:leading-tight drop-shadow">Essa carta traz uma punição/desafio para quem se recusar a perguntar ou responder uma pergunta.</p>
+              </div>
+            </div>
+            {/* Mobile-only description */}
+            <div className="md:hidden text-center">
+              <h3 className="text-white font-bold text-[12px] sm:text-[13px] leading-tight mb-0.5">Carta Desafio</h3>
+              <p className="text-white/70 text-[10px] sm:text-[11px] leading-snug">Essa carta traz uma punição/desafio para quem se recusar a responder.</p>
             </div>
           </div>
+
         </div>
       </div>
 
