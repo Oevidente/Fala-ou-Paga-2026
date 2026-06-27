@@ -1,7 +1,17 @@
 import { motion } from 'motion/react';
 import { Theme } from '../types';
+import { useEffect } from 'react';
 
 export function RulesView({ theme }: { theme: Theme; key?: string }) {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    // Para compatibilidade com a estrutura de layout em desktop
+    const mainEl = document.querySelector('main');
+    if (mainEl) {
+      mainEl.scrollTo(0, 0);
+    }
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -10,10 +20,9 @@ export function RulesView({ theme }: { theme: Theme; key?: string }) {
       className="pt-28 pb-12 px-6 md:pt-32 md:px-16 md:pb-20"
     >
       <h1 className="text-4xl font-bold text-white mb-6 italic tracking-tight text-glow">Regras</h1>
-      
-      <div className={`p-6 rounded-3xl backdrop-blur-xl border border-white/20 shadow-2xl ${
-        theme === 'dark' ? 'bg-black/30' : 'bg-white/10'
-      }`}>
+
+      <div className={`p-6 rounded-3xl backdrop-blur-xl border border-white/20 shadow-2xl ${theme === 'dark' ? 'bg-black/30' : 'bg-white/10'
+        }`}>
         <div className="space-y-6">
           <section>
             <h2 className="text-lg font-bold text-white mb-2 text-glow">1. Objetivo:</h2>

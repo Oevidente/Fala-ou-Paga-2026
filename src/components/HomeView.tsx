@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { Tab, Theme } from '../types';
-import { useState } from 'react';
+import { useEffect } from 'react';
 
 interface HomeViewProps {
   key?: string;
@@ -10,6 +10,15 @@ interface HomeViewProps {
 }
 
 export function HomeView({ theme, onPlay, setCurrentTab }: HomeViewProps) {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    // Para compatibilidade com a estrutura de layout em desktop
+    const mainEl = document.querySelector('main');
+    if (mainEl) {
+      mainEl.scrollTo(0, 0);
+    }
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}

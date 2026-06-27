@@ -25,9 +25,18 @@ export function GameView() {
   const [newPlayerName, setNewPlayerName] = useState<string>('');
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState<number>(0);
   const [currentCard, setCurrentCard] = useState<Card | null>(null);
-  
+
   const [availableMainCards, setAvailableMainCards] = useState<Card[]>([...mainDeck]);
   const [availableChallengeCards, setAvailableChallengeCards] = useState<Card[]>([...challengeDeck]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    // Para compatibilidade com a estrutura de layout em desktop
+    const mainEl = document.querySelector('main');
+    if (mainEl) {
+      mainEl.scrollTo(0, 0);
+    }
+  }, []);
 
   const deckStack = [0, 1, 2, 3, 4];
 
@@ -63,13 +72,13 @@ export function GameView() {
     if (pool.length === 0) {
       pool = [...mainDeck];
     }
-    
+
     const randomIndex = Math.floor(Math.random() * pool.length);
     const drawnCard = pool[randomIndex];
-    
+
     const newPool = pool.filter((_, index) => index !== randomIndex);
     setAvailableMainCards(newPool);
-    
+
     // Rotate turn only if a card was already drawn previously
     if (gameMode === 'local' && players.length > 0 && currentCard !== null) {
       setCurrentPlayerIndex(prev => (prev + 1) % players.length);
@@ -83,10 +92,10 @@ export function GameView() {
     if (pool.length === 0) {
       pool = [...challengeDeck];
     }
-    
+
     const randomIndex = Math.floor(Math.random() * pool.length);
     const drawnCard = pool[randomIndex];
-    
+
     const newPool = pool.filter((_, index) => index !== randomIndex);
     setAvailableChallengeCards(newPool);
     setCurrentCard(drawnCard);
@@ -96,7 +105,7 @@ export function GameView() {
 
   return (
     <div className="pt-28 pb-12 px-6 flex flex-col items-center justify-center min-h-[85vh]">
-      
+
       {gameState === 'playing' && gameMode === 'local' && players.length > 0 && (
         <motion.div
           initial={{ opacity: 0, y: -15 }}
@@ -130,11 +139,10 @@ export function GameView() {
                 <button
                   type="button"
                   onClick={() => setGameMode('individual')}
-                  className={`p-4 rounded-2xl border text-left transition-all relative overflow-hidden flex flex-col gap-1 active:scale-98 cursor-pointer ${
-                    gameMode === 'individual'
-                      ? 'bg-gradient-to-r from-pink-500/20 to-rose-500/20 border-pink-500/80 shadow-[0_0_20px_rgba(244,63,94,0.25)]'
-                      : 'bg-white/5 hover:bg-white/10 border-white/10'
-                  }`}
+                  className={`p-4 rounded-2xl border text-left transition-all relative overflow-hidden flex flex-col gap-1 active:scale-98 cursor-pointer backdrop-blur-md ${gameMode === 'individual'
+                    ? 'bg-gradient-to-r from-pink-500/20 to-rose-500/20 border-pink-500/80 shadow-[0_0_20px_rgba(244,63,94,0.25)]'
+                    : 'bg-white/5 hover:bg-white/10 border-white/10'
+                    }`}
                 >
                   <div className="flex items-center justify-between w-full">
                     <span className="font-bold text-white text-base">Modo Individual</span>
@@ -153,11 +161,10 @@ export function GameView() {
                 <button
                   type="button"
                   onClick={() => setGameMode('local')}
-                  className={`p-4 rounded-2xl border text-left transition-all relative overflow-hidden flex flex-col gap-1 active:scale-98 cursor-pointer ${
-                    gameMode === 'local'
-                      ? 'bg-gradient-to-r from-pink-500/20 to-rose-500/20 border-pink-500/80 shadow-[0_0_20px_rgba(244,63,94,0.25)]'
-                      : 'bg-white/5 hover:bg-white/10 border-white/10'
-                  }`}
+                  className={`p-4 rounded-2xl border text-left transition-all relative overflow-hidden flex flex-col gap-1 active:scale-98 cursor-pointer backdrop-blur-md ${gameMode === 'local'
+                    ? 'bg-gradient-to-r from-pink-500/20 to-rose-500/20 border-pink-500/80 shadow-[0_0_20px_rgba(244,63,94,0.25)]'
+                    : 'bg-white/5 hover:bg-white/10 border-white/10'
+                    }`}
                 >
                   <div className="flex items-center justify-between w-full">
                     <span className="font-bold text-white text-base">Passa e Joga (Local)</span>
@@ -184,7 +191,7 @@ export function GameView() {
                   >
                     <div className="h-px bg-white/10 my-1" />
                     <span className="text-sm font-bold text-white/70">Nomes dos Jogadores</span>
-                    
+
                     {/* Add Player Input */}
                     <div className="flex gap-2">
                       <input
@@ -242,11 +249,10 @@ export function GameView() {
                 type="button"
                 onClick={() => setGameState('cover')}
                 disabled={gameMode === 'local' && players.length < 2}
-                className={`w-full py-3.5 rounded-full text-base font-bold transition-all shadow-[0_0_20px_rgba(244,63,94,0.4)] active:scale-95 ${
-                  gameMode === 'local' && players.length < 2
-                    ? 'bg-slate-700/50 border border-slate-600/30 text-slate-400 cursor-not-allowed shadow-none'
-                    : 'bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 border border-pink-400/50 text-white cursor-pointer'
-                }`}
+                className={`w-full py-3.5 rounded-full text-base font-bold transition-all shadow-[0_0_20px_rgba(244,63,94,0.4)] active:scale-95 ${gameMode === 'local' && players.length < 2
+                  ? 'bg-slate-700/50 border border-slate-600/30 text-slate-400 cursor-not-allowed shadow-none'
+                  : 'bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 border border-pink-400/50 text-white cursor-pointer'
+                  }`}
               >
                 Confirmar
               </button>
@@ -318,7 +324,7 @@ export function GameView() {
                     className="absolute inset-0 w-full h-full rounded-2xl"
                   >
                     {/* Front Face */}
-                    <div 
+                    <div
                       className="absolute inset-0 w-full h-full rounded-2xl border-4 border-white/80 overflow-hidden shadow-xl"
                       style={{ backfaceVisibility: 'hidden' }}
                     >
@@ -330,9 +336,9 @@ export function GameView() {
                     </div>
 
                     {/* Back Face */}
-                    <div 
+                    <div
                       className="absolute inset-0 w-full h-full rounded-2xl border-4 border-white/80 overflow-hidden shadow-xl"
-                      style={{ 
+                      style={{
                         backfaceVisibility: 'hidden',
                         transform: 'rotateY(180deg)'
                       }}
@@ -433,7 +439,7 @@ export function GameView() {
               >
                 Sortear Carta
               </button>
-              
+
               {currentCard && !isPaga && (
                 <motion.button
                   initial={{ opacity: 0, height: 0 }}
