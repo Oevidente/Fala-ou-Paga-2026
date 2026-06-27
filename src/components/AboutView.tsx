@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import { Theme } from '../types';
 
-export function AboutView({ theme }: { theme: Theme }) {
+export function AboutView({ theme }: { theme: Theme; key?: string }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

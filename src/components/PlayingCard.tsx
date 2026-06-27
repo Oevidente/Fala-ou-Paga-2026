@@ -2,6 +2,7 @@ import { motion } from 'motion/react';
 import { Card } from '../types';
 
 interface PlayingCardProps {
+  key?: string;
   card: Card | null;
 }
 

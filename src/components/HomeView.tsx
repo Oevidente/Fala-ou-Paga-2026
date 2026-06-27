@@ -3,6 +3,7 @@ import { Tab, Theme } from '../types';
 import { useState } from 'react';
 
 interface HomeViewProps {
+  key?: string;
   theme: Theme;
   onPlay: () => void;
   setCurrentTab: (tab: Tab) => void;

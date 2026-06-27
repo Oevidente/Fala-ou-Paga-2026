@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import { Theme } from '../types';
 
-export function RulesView({ theme }: { theme: Theme }) {
+export function RulesView({ theme }: { theme: Theme; key?: string }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
