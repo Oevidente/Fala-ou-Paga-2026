@@ -36,6 +36,7 @@ export function RulesView({ theme }: { theme: Theme; key?: string }) {
             <ul className="text-white/90 space-y-1">
               <li>Baralho de cartas vermelhas (contém as perguntas principais)</li>
               <li>1 carta prateada por rodada (pergunta livre)</li>
+              <li>Cartas azuis (perguntas respondidas em dupla)</li>
               <li>Baralho de cartas douradas (desafios/punições)</li>
             </ul>
           </section>
@@ -68,7 +69,15 @@ export function RulesView({ theme }: { theme: Theme; key?: string }) {
           </section>
 
           <section>
-            <h2 className="text-lg font-bold text-white mb-2 text-glow">6. Cartas de Desafio (Douradas):</h2>
+            <h2 className="text-lg font-bold text-white mb-2 text-glow">6. Cartas Azuis:</h2>
+            <ul className="text-white/90 space-y-1">
+              <li>Independente de quem puxar a carta, os dois participantes devem responder ao mesmo tempo.</li>
+              <li>Se apenas uma pessoa se recusar a responder, a punição vale para os dois. Uma carta dourada deve ser puxada e <strong>ambos</strong> devem pagar o desafio.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2 className="text-lg font-bold text-white mb-2 text-glow">7. Cartas de Desafio (Douradas):</h2>
             <p className="text-white/90">
               Cada carta dourada traz uma punição criativa.
             </p>

@@ -131,6 +131,7 @@ export function HomeView({ theme, onPlay, setCurrentTab }: HomeViewProps) {
               <ul className="space-y-1 list-disc list-inside">
                 <li>Baralho de cartas vermelhas (contém as perguntas principais)</li>
                 <li>1 carta prateada por rodada (pergunta livre)</li>
+                <li>Cartas azuis (perguntas respondidas em dupla)</li>
                 <li>Baralho de cartas douradas (desafios/punições)</li>
               </ul>
             </section>
@@ -160,6 +161,21 @@ export function HomeView({ theme, onPlay, setCurrentTab }: HomeViewProps) {
                 <li>Se o questionado se recusar a responder, o questionador deve puxar uma carta dourada e cumprir o desafio indicado.</li>
                 <li>Se quem puxou a carta (a vez) se sentir tímido ou não quiser fazer a pergunta, o outro jogador puxa uma carta dourada e realiza o desafio.</li>
               </ul>
+            </section>
+
+            <section>
+              <h3 className="text-lg font-bold text-white mb-2 text-glow">6. Cartas Azuis:</h3>
+              <ul className="space-y-1 list-disc list-inside">
+                <li>Independente de quem puxar a carta, os dois participantes devem responder ao mesmo tempo.</li>
+                <li>Se apenas uma pessoa se recusar a responder, a punição vale para os dois. Uma carta dourada deve ser puxada e <strong>ambos</strong> devem pagar o desafio.</li>
+              </ul>
+            </section>
+
+            <section>
+              <h3 className="text-lg font-bold text-white mb-2 text-glow">7. Cartas de Desafio (Douradas):</h3>
+              <p>
+                Cada carta dourada traz uma punição criativa.
+              </p>
             </section>
           </div>
 
