@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Card } from '../types';
 import { mainDeck, challengeDeck } from '../data';
 import { PlayingCard } from './PlayingCard';
+import { playClickSound, playRevealSound } from '../audio';
 
 type GameState = 'mode_selection' | 'cover' | 'gallery' | 'shuffling' | 'playing';
 type GameMode = 'local' | 'individual';
@@ -54,6 +55,7 @@ export function GameView() {
     if (trimmed && !players.includes(trimmed)) {
       setPlayers(prev => [...prev, trimmed]);
       setNewPlayerName('');
+      playClickSound();
     }
   };
 
@@ -65,6 +67,7 @@ export function GameView() {
       }
       return prev;
     });
+    playClickSound();
   };
 
   const drawMainCard = () => {
@@ -85,6 +88,7 @@ export function GameView() {
     }
 
     setCurrentCard(drawnCard);
+    playRevealSound();
   };
 
   const drawChallengeCard = () => {
@@ -99,6 +103,7 @@ export function GameView() {
     const newPool = pool.filter((_, index) => index !== randomIndex);
     setAvailableChallengeCards(newPool);
     setCurrentCard(drawnCard);
+    playRevealSound();
   };
 
   const isPaga = currentCard?.category === 'paga';
@@ -138,7 +143,10 @@ export function GameView() {
                 {/* Individual Card */}
                 <button
                   type="button"
-                  onClick={() => setGameMode('individual')}
+                  onClick={() => {
+                    playClickSound();
+                    setGameMode('individual');
+                  }}
                   className={`p-4 rounded-2xl border text-left transition-all relative overflow-hidden flex flex-col gap-1 active:scale-98 cursor-pointer backdrop-blur-md ${gameMode === 'individual'
                     ? 'bg-gradient-to-r from-pink-500/20 to-rose-500/20 border-pink-500/80 shadow-[0_0_20px_rgba(244,63,94,0.25)]'
                     : 'bg-white/5 hover:bg-white/10 border-white/10'
@@ -160,7 +168,10 @@ export function GameView() {
                 {/* Local Play Card */}
                 <button
                   type="button"
-                  onClick={() => setGameMode('local')}
+                  onClick={() => {
+                    playClickSound();
+                    setGameMode('local');
+                  }}
                   className={`p-4 rounded-2xl border text-left transition-all relative overflow-hidden flex flex-col gap-1 active:scale-98 cursor-pointer backdrop-blur-md ${gameMode === 'local'
                     ? 'bg-gradient-to-r from-pink-500/20 to-rose-500/20 border-pink-500/80 shadow-[0_0_20px_rgba(244,63,94,0.25)]'
                     : 'bg-white/5 hover:bg-white/10 border-white/10'
@@ -247,7 +258,10 @@ export function GameView() {
 
               <button
                 type="button"
-                onClick={() => setGameState('cover')}
+                onClick={() => {
+                  playClickSound();
+                  setGameState('cover');
+                }}
                 disabled={gameMode === 'local' && players.length < 2}
                 className={`w-full py-3.5 rounded-full text-base font-bold transition-all shadow-[0_0_20px_rgba(244,63,94,0.4)] active:scale-95 ${gameMode === 'local' && players.length < 2
                   ? 'bg-slate-700/50 border border-slate-600/30 text-slate-400 cursor-not-allowed shadow-none'
@@ -402,7 +416,10 @@ export function GameView() {
         <div className="w-full flex flex-col gap-4 max-w-[280px]">
           {gameState === 'cover' && (
             <button
-              onClick={() => setGameState('gallery')}
+              onClick={() => {
+                playClickSound();
+                setGameState('gallery');
+              }}
               className="w-full py-3.5 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 border border-pink-400/50 text-white font-semibold rounded-full shadow-[0_0_20px_rgba(244,63,94,0.4)] transition-all active:scale-95 text-base font-bold cursor-pointer"
             >
               Iniciar
@@ -411,7 +428,10 @@ export function GameView() {
 
           {gameState === 'gallery' && (
             <button
-              onClick={() => setGameState('shuffling')}
+              onClick={() => {
+                playClickSound();
+                setGameState('shuffling');
+              }}
               className="w-full py-3.5 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 border border-purple-400/50 text-white font-semibold rounded-full shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all active:scale-95 text-base font-bold cursor-pointer"
             >
               Embaralhar

@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { Tab, Theme } from "../types";
 import { useEffect } from "react";
+import { playClickSound } from "../audio";
 
 interface HomeViewProps {
   key?: string;
@@ -19,6 +20,11 @@ export function HomeView({ theme, onPlay, setCurrentTab }: HomeViewProps) {
     }
   }, []);
 
+  const handlePlayClick = () => {
+    playClickSound();
+    onPlay();
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -35,7 +41,7 @@ export function HomeView({ theme, onPlay, setCurrentTab }: HomeViewProps) {
             className="w-full h-auto img-glow"
           />
           <button
-            onClick={onPlay}
+            onClick={handlePlayClick}
             className="mt-6 md:mt-10 w-full py-2 md:py-3 bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/30 text-white font-medium md:text-xl rounded-full shadow-lg transition-all active:scale-95 text-center"
           >
             Jogue Agora
@@ -295,6 +301,7 @@ export function HomeView({ theme, onPlay, setCurrentTab }: HomeViewProps) {
           <div className="flex justify-center mt-6 md:mt-10">
             <button
               onClick={() => {
+                playClickSound();
                 const mainEl = document.querySelector("main");
                 if (mainEl && window.innerWidth >= 768) {
                   window.scrollTo({ top: 0, behavior: "smooth" });

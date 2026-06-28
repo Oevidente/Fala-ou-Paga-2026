@@ -1,5 +1,8 @@
 import { Tab, Theme } from '../types';
 import { motion } from 'motion/react';
+import { Volume2, VolumeX } from 'lucide-react';
+import { toggleSound, getSoundEnabled, playClickSound } from '../audio';
+import { useState, useEffect } from 'react';
 
 interface NavigationProps {
   currentTab: Tab;
@@ -9,6 +12,28 @@ interface NavigationProps {
 }
 
 export function Navigation({ currentTab, setCurrentTab, theme, toggleTheme }: NavigationProps) {
+  const [isSoundOn, setIsSoundOn] = useState(true);
+
+  useEffect(() => {
+    setIsSoundOn(getSoundEnabled());
+  }, []);
+
+  const handleToggleSound = () => {
+    const newState = toggleSound();
+    setIsSoundOn(newState);
+    playClickSound();
+  };
+
+  const handleTabClick = (tabId: Tab) => {
+    playClickSound();
+    setCurrentTab(tabId);
+  };
+
+  const handleToggleTheme = () => {
+    playClickSound();
+    toggleTheme();
+  };
+
   const tabs: { id: Tab; label: string }[] = [
     { id: 'inicio', label: 'Início' },
     { id: 'regras', label: 'Regras' },
@@ -26,7 +51,7 @@ export function Navigation({ currentTab, setCurrentTab, theme, toggleTheme }: Na
             return (
               <button
                 key={tab.id}
-                onClick={() => setCurrentTab(tab.id)}
+                onClick={() => handleTabClick(tab.id)}
                 className={`relative flex-1 py-2 text-sm font-medium rounded-full transition-colors ${
                   isActive ? 'text-white' : 'text-white/70 hover:text-white'
                 }`}
@@ -44,14 +69,25 @@ export function Navigation({ currentTab, setCurrentTab, theme, toggleTheme }: Na
           })}
         </div>
         
-        <button
-          onClick={toggleTheme}
-          className="w-12 h-12 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md text-white shadow-[0_4px_30px_rgba(0,0,0,0.1)] border border-white/20 hover:bg-white/20 transition-colors cursor-pointer"
-          aria-label="Toggle theme"
-          title="Alternar tema"
-        >
-          <img src={theme === 'light' ? `${import.meta.env.BASE_URL}pngs/dark room.png` : `${import.meta.env.BASE_URL}pngs/light room.png`} alt="Theme" className="w-6 h-6 object-contain drop-shadow-sm" />
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={handleToggleSound}
+            className="w-12 h-12 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md text-white shadow-[0_4px_30px_rgba(0,0,0,0.1)] border border-white/20 hover:bg-white/20 transition-colors cursor-pointer"
+            aria-label="Toggle sound"
+            title="Alternar som"
+          >
+            {isSoundOn ? <Volume2 size={20} /> : <VolumeX size={20} />}
+          </button>
+          
+          <button
+            onClick={handleToggleTheme}
+            className="w-12 h-12 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md text-white shadow-[0_4px_30px_rgba(0,0,0,0.1)] border border-white/20 hover:bg-white/20 transition-colors cursor-pointer"
+            aria-label="Toggle theme"
+            title="Alternar tema"
+          >
+            <img src={theme === 'light' ? `${import.meta.env.BASE_URL}pngs/dark room.png` : `${import.meta.env.BASE_URL}pngs/light room.png`} alt="Theme" className="w-6 h-6 object-contain drop-shadow-sm" />
+          </button>
+        </div>
       </div>
     </nav>
   );
