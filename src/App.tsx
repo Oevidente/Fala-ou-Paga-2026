@@ -21,7 +21,8 @@ export default function App() {
 
     const autoFullscreen = () => {
       try {
-        if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+        const isMobile = window.innerWidth < 768;
+        if (isMobile && !document.fullscreenElement && document.documentElement.requestFullscreen) {
           document.documentElement.requestFullscreen().catch(() => {});
         }
       } catch (e) {}
@@ -40,7 +41,8 @@ export default function App() {
 
   const handlePlay = () => {
     try {
-      if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+      const isMobile = window.innerWidth < 768;
+      if (isMobile && !document.fullscreenElement && document.documentElement.requestFullscreen) {
         document.documentElement.requestFullscreen().catch(() => {});
       }
     } catch (e) {}
