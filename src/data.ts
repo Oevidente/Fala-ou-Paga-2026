@@ -16,7 +16,7 @@ for (let i = 1; i <= MAX_CARD_NUMBER; i++) {
 }
 
 const specialFiles = [
-  'Capa-ou-Verso.png', 'Fez ou faria.png', 'Livre.png', 'Preferências.png', 'Segredos.png'
+  'Fez ou faria.png', 'Livre.png', 'Preferências.png', 'Segredos.png'
 ];
 
 const allCardFiles = [...numberedFiles, ...specialFiles];

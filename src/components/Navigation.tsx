@@ -1,6 +1,6 @@
 import { Tab, Theme } from '../types';
 import { motion } from 'motion/react';
-import { Volume2, VolumeX } from 'lucide-react';
+
 import { toggleSound, getSoundEnabled, playClickSound } from '../audio';
 import { useState, useEffect } from 'react';
 
@@ -76,7 +76,11 @@ export function Navigation({ currentTab, setCurrentTab, theme, toggleTheme }: Na
             aria-label="Toggle sound"
             title="Alternar som"
           >
-            {isSoundOn ? <Volume2 size={20} /> : <VolumeX size={20} />}
+            {isSoundOn ? (
+              <img src={`${import.meta.env.BASE_URL}pngs/som,.png`} alt="Som ligado" className="w-6 h-6 object-contain grayscale" />
+            ) : (
+              <img src={`${import.meta.env.BASE_URL}pngs/mudo.png`} alt="Som mutado" className="w-6 h-6 object-contain grayscale" />
+            )}
           </button>
           
           <button

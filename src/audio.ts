@@ -81,3 +81,19 @@ export const playRevealSound = () => {
     }
   } catch (e) {}
 };
+
+export const playDrawSound = () => {
+  if (!soundEnabled) return;
+  try {
+    const cardDrawAudio = new Audio(`${import.meta.env.BASE_URL}card-draw.mp3`);
+    cardDrawAudio.currentTime = 0;
+    cardDrawAudio.play().catch(() => {});
+  } catch (e) {}
+
+  try {
+    if ('vibrate' in navigator) {
+      navigator.vibrate(15);
+    }
+  } catch (e) {}
+};
+

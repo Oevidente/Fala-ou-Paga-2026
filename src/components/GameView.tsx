@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Card } from '../types';
 import { mainDeck, challengeDeck } from '../data';
 import { PlayingCard } from './PlayingCard';
-import { playClickSound, playRevealSound } from '../audio';
+import { playClickSound, playRevealSound, playDrawSound } from '../audio';
 
 type GameState = 'mode_selection' | 'cover' | 'gallery' | 'shuffling' | 'playing';
 type GameMode = 'local' | 'individual';
@@ -46,7 +46,9 @@ export function GameView() {
       const timer = setTimeout(() => {
         setGameState('playing');
       }, 3000);
-      return () => clearTimeout(timer);
+      return () => {
+        clearTimeout(timer);
+      };
     }
   }, [gameState]);
 
@@ -76,10 +78,38 @@ export function GameView() {
       pool = [...mainDeck];
     }
 
-    const randomIndex = Math.floor(Math.random() * pool.length);
-    const drawnCard = pool[randomIndex];
+    const isBlueCard = (card: Card) => {
+      const match = card.image.match(/^(\d+)\.png$/);
+      if (match) {
+        const num = parseInt(match[1], 10);
+        return num >= 93 && num <= 116;
+      }
+      return false;
+    };
 
-    const newPool = pool.filter((_, index) => index !== randomIndex);
+    const bluePool = pool.filter(isBlueCard);
+    const normalPool = pool.filter(c => !isBlueCard(c));
+
+    // Algoritmo de alta aleatoriedade usando Crypto API
+    const getRandomInt = (max: number) => {
+      const array = new Uint32Array(1);
+      window.crypto.getRandomValues(array);
+      return array[0] % max;
+    };
+
+    let chosenPool = normalPool;
+    const isBlueChance = getRandomInt(100) < 10; // 10% de chance
+
+    if (isBlueChance && bluePool.length > 0) {
+      chosenPool = bluePool;
+    } else if (normalPool.length === 0) {
+      chosenPool = bluePool;
+    }
+
+    const randomIndex = getRandomInt(chosenPool.length);
+    const drawnCard = chosenPool[randomIndex];
+
+    const newPool = pool.filter(c => c.id !== drawnCard.id);
     setAvailableMainCards(newPool);
 
     // Rotate turn only if a card was already drawn previously
@@ -88,7 +118,7 @@ export function GameView() {
     }
 
     setCurrentCard(drawnCard);
-    playRevealSound();
+    playDrawSound();
   };
 
   const drawChallengeCard = () => {
@@ -97,13 +127,19 @@ export function GameView() {
       pool = [...challengeDeck];
     }
 
-    const randomIndex = Math.floor(Math.random() * pool.length);
+    const getRandomInt = (max: number) => {
+      const array = new Uint32Array(1);
+      window.crypto.getRandomValues(array);
+      return array[0] % max;
+    };
+
+    const randomIndex = getRandomInt(pool.length);
     const drawnCard = pool[randomIndex];
 
-    const newPool = pool.filter((_, index) => index !== randomIndex);
+    const newPool = pool.filter(c => c.id !== drawnCard.id);
     setAvailableChallengeCards(newPool);
     setCurrentCard(drawnCard);
-    playRevealSound();
+    playDrawSound();
   };
 
   const isPaga = currentCard?.category === 'paga';
