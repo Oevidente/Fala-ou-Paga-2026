@@ -18,6 +18,16 @@ export default function App() {
     if (savedTheme === 'light' || savedTheme === 'dark') {
       setTheme(savedTheme);
     }
+
+    const autoFullscreen = () => {
+      try {
+        if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        }
+      } catch (e) {}
+    };
+    document.addEventListener('pointerdown', autoFullscreen);
+    return () => document.removeEventListener('pointerdown', autoFullscreen);
   }, []);
 
   const toggleTheme = () => {
@@ -29,6 +39,11 @@ export default function App() {
   };
 
   const handlePlay = () => {
+    try {
+      if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      }
+    } catch (e) {}
     setCurrentTab('jogo');
   };
 

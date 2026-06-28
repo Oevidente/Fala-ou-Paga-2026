@@ -1,4 +1,3 @@
-import { Moon, Sun } from 'lucide-react';
 import { Tab, Theme } from '../types';
 import { motion } from 'motion/react';
 
@@ -18,7 +17,7 @@ export function Navigation({ currentTab, setCurrentTab, theme, toggleTheme }: Na
 
   return (
     <nav className="fixed md:sticky top-6 md:top-6 left-0 right-0 md:left-auto md:right-auto z-50 flex justify-center px-4 md:mb-[-2rem]">
-      <div className="flex items-center gap-3 max-w-sm md:max-w-lg w-full">
+      <div className="flex items-center gap-2 max-w-sm md:max-w-lg w-full">
         <div className="flex-1 flex items-center bg-white/10 backdrop-blur-md rounded-full p-1 shadow-[0_4px_30px_rgba(0,0,0,0.1)] border border-white/20">
           {tabs.map((tab) => {
             // Se estiver no jogo, as abas continuam aparecendo, mas o Início fica "ativo" para voltar
@@ -47,8 +46,9 @@ export function Navigation({ currentTab, setCurrentTab, theme, toggleTheme }: Na
         
         <button
           onClick={toggleTheme}
-          className="w-12 h-12 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md text-white shadow-[0_4px_30px_rgba(0,0,0,0.1)] border border-white/20 hover:bg-white/20 transition-colors"
+          className="w-12 h-12 flex items-center justify-center rounded-full bg-white/10 backdrop-blur-md text-white shadow-[0_4px_30px_rgba(0,0,0,0.1)] border border-white/20 hover:bg-white/20 transition-colors cursor-pointer"
           aria-label="Toggle theme"
+          title="Alternar tema"
         >
           <img src={theme === 'light' ? `${import.meta.env.BASE_URL}pngs/dark room.png` : `${import.meta.env.BASE_URL}pngs/light room.png`} alt="Theme" className="w-6 h-6 object-contain drop-shadow-sm" />
         </button>
